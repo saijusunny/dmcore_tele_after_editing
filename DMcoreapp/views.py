@@ -49,6 +49,10 @@ from datetime import time
 from datetime import datetime, timedelta, time
 from django.shortcuts import render
 from openpyxl import load_workbook
+
+from schedule import every
+from django.views.generic import View
+from django.utils import timezone
 #----------------------------------------------------------Login, Sign Up, Reset, Internshipform 
 def login(request):
     return render(request, 'home/login.html')
@@ -2093,6 +2097,7 @@ def ex_dashboard(request):
     usr = user_registration.objects.get(id=ids)
     cor=correction.objects.filter(executive=ids).order_by('id').last()
     
+    
     dt=date.today()
     context={
         "usr":usr,
@@ -2108,6 +2113,8 @@ def ex_daily_work_clint(request):
     last=work_asign.objects.filter(exe_name=ids).last()
     work=Work.objects.all()
     cl=client_information.objects.all()
+
+
 
    
     context={
@@ -2448,7 +2455,27 @@ def daily_work_done(request,id):
                 work.delay=int(delays.days)
                 work.status = "yes"
                 work.save()
+
+                leads=lead_delay()
+                leads.executive=usr
+                leads.start_date=work.start_date
+                leads.end_date=work.end_date
+                leads.target=work.target
+                leads.status="yes"
+                leads.balance=int(work.target)-int(dl_cnt)
+                leads.achived=dl_cnt
+                leads.save()
+
             else:
+                leads=lead_delay()
+                leads.executive=usr
+                leads.start_date=work.start_date
+                leads.end_date=work.end_date
+                leads.target=work.target
+                leads.status="no"
+                leads.balance=int(work.target)-int(dl_cnt)
+                leads.achived=dl_cnt
+                leads.save()
                 dl.status = "no"
                 
             dl.save()
@@ -2494,16 +2521,34 @@ def daily_work_done(request,id):
                 dl.status = "no"
                 
             dl.save()
+
+            ###################################################
+
+      
        
     
         return redirect("ex_daily_work_det",work.client_name_id)
     return redirect("ex_daily_work_det",work.client_name_id)
 
+###################################################auto assign Section
+
+
+def ex_delay(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    dl_task=lead_delay.objects.filter(executive=usr)
+    context={
+        "usr":usr,
+        "dl_task":dl_task
+    }
+    return render(request, 'executive/ex_delay.html', context)
+
+
 def ex_weekly_rep_clint(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     work_as=work_asign.objects.filter(exe_name=ids).values('client_name_id').distinct()
-    work=Work.objects.filter()
+    work=Work.objects.all()
     last=work_asign.objects.filter(exe_name=ids).last()
     cl=client_information.objects.all()
     context={
@@ -2559,6 +2604,9 @@ def ex_view_work_clint(request):
     cl=client_information.objects.all()
     last=work_asign.objects.filter(exe_name=ids).last()
 
+    curent_month= date.today().month
+    curret_year= date.today().year
+
     context={
         "usr":usr,
         "work":work,
@@ -2567,6 +2615,41 @@ def ex_view_work_clint(request):
         "last":last,
     }
     return render(request, 'executive/ex_view_work_clint.html',context)
+
+
+
+from django.utils import timezone
+def auto_assign():
+    print("haii")
+    print(timezone.now().hour)
+    print(timezone.now().minute)
+    print("haii")
+    curent_month= date.today().month
+    curret_year= date.today().year
+    
+    target=Work.objects.filter(task="Leads Collection")
+    dily=daily_work.objects.filter(task="Leads Collection")
+   
+    for i in target:
+        if i.end_date == date.today():
+            pass
+        else:
+            i.delay=0
+            i.status="no"
+            i.save()
+
+    for k in dily:
+        dls=Work.objects.filter(id=k.work_id)
+        if dls.end_date == date.today():
+            pass
+        else:
+            k.status_date=None
+            k.status="no"
+            k.save()
+    print("welcome")
+
+# timezone.now().replace(hour=0, minute=0, second=0)
+# every().day.at("20:17").do(ex_view_work_clint)
 
 def ex_view_clint_det(request,id):
     ids=request.session['userid']

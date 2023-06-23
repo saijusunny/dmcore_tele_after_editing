@@ -536,4 +536,14 @@ class Lead_assign(models.Model):
     telecaller = models.CharField(max_length=255, null=True, blank=True)
     checkbox = models.ForeignKey(All_leads, on_delete=models.CASCADE, null=True, blank=True)
 
+
+class lead_delay(models.Model):
+    executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
+    start_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
+    end_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
+    target=models.IntegerField(default=0, null=True, blank=True)
+    status= models.CharField(max_length=200,default='', null=True, blank=True)
+    balance=models.IntegerField(default=0, null=True, blank=True)
+    achived=models.IntegerField(default=0, null=True, blank=True)
+
    
