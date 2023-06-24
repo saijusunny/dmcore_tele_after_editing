@@ -73,6 +73,11 @@ urlpatterns = [
     path('ad_nocall_tele_det/<int:id>', views.ad_nocall_tele_det, name='ad_nocall_tele_det'),
     path('ad_nocall_tele_det_month/<int:id>',views.ad_nocall_tele_det_month,name='ad_nocall_tele_det_month'),
     path('ad_nocall_tele_det_day/<int:id>',views.ad_nocall_tele_det_day,name='ad_nocall_tele_det_day'),
+
+    path('ad_delay_det',views.ad_delay_det,name='ad_delay_det'),
+   
+    path('ad_delay_flt',views.ad_delay_flt,name='ad_delay_flt'),
+
     #---------------------------------------------------------------------------Executive Section
     path('ex_base', views.ex_base, name='ex_base'),
     path('ex_profile', views.ex_profile, name='ex_profile'),
@@ -115,7 +120,12 @@ urlpatterns = [
     path('ad_tl_det', views.ad_tl_det, name='ad_tl_det'),
     path('view_tl_leave/<int:id>', views.view_tl_leave, name='view_tl_leave'),
     path('ex_delay',views.ex_delay,name='ex_delay'),
-    
+    path('ex_delay_det_month',views.ex_delay_det_month,name='ex_delay_det_month'),
+    path('ex_delay_det_day',views.ex_delay_det_day,name='ex_delay_det_day'),
+
+    path('ex_duplicate_leads',views.duplicate_leads,name='duplicate_leads'),
+    path('ex_flt_day_duplicate/',views.ex_flt_day_duplicate,name='ex_flt_day_duplicate'),
+    path('ex_flt_month_duplicate/',views.ex_flt_month_duplicate,name='ex_flt_month_duplicate'),
     #---------------marketing head 
     
     path('he_profile', views.he_profile, name='he_profile'),

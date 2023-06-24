@@ -123,6 +123,16 @@
                 </li>
 
                 <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'duplicate_leads' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-content-copy"></i>
+                        </span>
+                        <span class="menu-title">Duplicate Leads</span>
+                        <span class="badge badge-outline-danger" style="border-radius: 8px;">{{count}}</span>
+                    </a>
+                </li>
+
+                <li class="nav-item menu-items">
                     <a class="nav-link" href="{% url 'ex_schedule_dash'%}">
                         <span class="menu-icon">
                             <i class="mdi mdi-calendar-multiple"></i>

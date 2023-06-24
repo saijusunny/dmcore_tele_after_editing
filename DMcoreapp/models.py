@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 # from django.contrib.postgres.fields import JSONField
 from django.db.models import JSONField
 # Create your models here.
-
+from datetime import date
 
 # login
 
@@ -312,6 +312,7 @@ class daily_work(models.Model):
     bk_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
     status= models.CharField(max_length=200,default='', null=True, blank=True)
     status_date=models.DateField(null=True,blank=True)
+    target_count=models.CharField(max_length=200,default='', null=True, blank=True)
     
 class daily_work_sub(models.Model):
     daily=models.ForeignKey(daily_work,on_delete=models.CASCADE,null=True,blank=True)
@@ -539,11 +540,34 @@ class Lead_assign(models.Model):
 
 class lead_delay(models.Model):
     executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
-    start_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
-    end_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
+    date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
+    
     target=models.IntegerField(default=0, null=True, blank=True)
     status= models.CharField(max_length=200,default='', null=True, blank=True)
     balance=models.IntegerField(default=0, null=True, blank=True)
     achived=models.IntegerField(default=0, null=True, blank=True)
+    sub_target=models.IntegerField(default=0, null=True, blank=True)
 
+class daily_leeds_exists(models.Model):
+    daily=models.ForeignKey(daily_work,on_delete=models.CASCADE,null=True,blank=True)
+    date = models.DateField(default=date.today())
+    name = models.CharField(max_length=255,null=True,blank=True,default='')
+    email_id = models.CharField(max_length=255,null=True,blank=True,default='')
+    ph_no = models.CharField(max_length=255,null=True,blank=True,default='')
+    location = models.CharField(max_length=255,null=True,blank=True,default='')
+    qualification = models.CharField(max_length=255,null=True,blank=True,default='')
+    year_of_passout = models.CharField(max_length=255,null=True,blank=True,default='')
+    collegename = models.CharField(max_length=255,null=True,blank=True,default='')
+    internship = models.CharField(max_length=255,null=True,blank=True,default='')
+    internship_institute = models.CharField(max_length=255,null=True,blank=True,default='')
+    internship_topic = models.CharField(max_length=255,null=True,blank=True,default='')
+    internship_start = models.DateField(null=True,blank=True)
+    internship_end  = models.DateField(null=True,blank=True)
+    duration = models.CharField(max_length=255,null=True,blank=True,default='')
+    fresher_experience = models.CharField(max_length=255,null=True,blank=True,default='')
+    previous_experience = models.CharField(max_length=255,null=True,blank=True,default='')
+    company_name = models.CharField(max_length=255,null=True,blank=True,default='')
+    register = models.CharField(max_length=255,null=True,blank=True,default='')
+    ex_duration = models.CharField(max_length=255,null=True,blank=True,default='')
+    executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
    

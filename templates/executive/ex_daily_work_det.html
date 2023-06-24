@@ -264,7 +264,35 @@
                   
 
                   <td style="color:white;">
-                    <a href="" data-toggle="modal" data-target="#dis{{dl.id}}"><div class="badge badge-outline-info" >View Description</div></a>
+                    <a href="" data-toggle="modal" data-target="#dis{{dl.id}}">
+                      <div class="badge badge-outline-info" >View Description</div>                       
+                    </a>
+                    
+                    <!-- {% if dl.target_count < dp.target %}
+
+                    <div class="badge badge-outline-success ms-3" >{{dl.target_count}}</div>
+
+                    {% elif dl.target_count == dp.target %}  
+
+                      <div class="badge badge-outline-warning ms-3" >{{dl.target_count}}</div>
+
+                      
+                    {% else %}
+
+                      <div class="badge badge-outline-danger ms-3" >{{dl.target_count}}{{dp.target}}</div>                     
+                    
+                    {% endif %} -->
+
+                    {% if dl.target_count == dp.target %}
+
+                    <div class="badge badge-outline-warning">{{dl.target_count}}</div>
+                    {% elif dl.target_count >  dp.target %}
+                    <div class="badge badge-outline-danger">{{dl.target_count}}</div>
+                    
+                    {% else %}
+                    <div class="badge badge-outline-success">{{dl.target_count}}</div>
+                    {%endif%}
+                   
                   </td>
 
                   <td style="color:white;">
